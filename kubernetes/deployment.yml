@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bankapp-web
+  namespace: bank-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bankapp-web
+  template:
+    metadata:
+      labels:
+        app: bankapp-web
+    spec:
+      tolerations:
+       - key: "role"
+         operator: "Equal"
+         value: "banking"
+         effect: "NoSchedule"
+      containers:
+      - name: bankapp-container
+        image: pk1818/bankapp:latest
+        ports:
+        - containerPort: 8080
+  #     env:
+  #     - name: SPRING_DATASOURCE_URL
+  #       valueFrom:
+  #         configMapKeyRef:
+  #           name: bankapp-config
+  #           key: SPRING_DATASOURCE_URL
+        envFrom:
+         - configMapRef:
+            name: bankapp-config
+         - secretRef:
+            name: bankapp-secret    
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+

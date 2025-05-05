@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-backup-cron
+  namespace: bank-app
+spec:
+  schedule: "*/5 * * * *"  # Every 5 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cron-backup
+            image: busybox
+            command: ["sh", "-c", "echo 'Scheduled DB backup...' && sleep 5"]
+          restartPolicy: OnFailure

@@ -1,0 +1,8 @@
+apiVersion: bankapp.io/v1
+kind: BankApp
+metadata:
+  name: my-bankapp
+  namespace: bank-app
+spec:
+  name: payment-service
+  version: v1.0.0

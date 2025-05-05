@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: simple-daemon
+  namespace: bank-app
+  labels:
+    app: simple-daemon
+spec:
+  selector:
+    matchLabels:
+      app: simple-daemon
+  template:
+    metadata:
+      labels:
+        app: simple-daemon
+    spec:
+      containers:
+        - name: daemon-container
+          image: busybox
+          command: ["/bin/sh", "-c", "while true; do echo Hello from the daemon pod; sleep 60; done"]
+
